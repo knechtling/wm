@@ -1,8 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
+#define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "vivaldi"
+#define BROWSER "firefox"
+#define MUSICPLAYER "Sonixd"
 
 /* appearance */
 static const unsigned int borderpx       = 3;   /* border pixel of windows */
@@ -18,8 +20,6 @@ static const int smartgaps_fact          = 1;   /* gap factor when there is only
 static const int showbar                 = 1;   /* 0 means no bar */
 static const int topbar                  = 1;   /* 0 means bottom bar */
 static const int focusonwheel            = 0;
-static int floatposgrid_x                = 5;  /* float grid columns */
-static int floatposgrid_y                = 5;  /* float grid rows */
 static const char slopspawnstyle[]       = "-t 0 -c 0.92,0.85,0.69,0.3 -o"; /* do NOT define -f (format) here */
 static const char slopresizestyle[]      = "-t 0 -c 0.92,0.85,0.69,0.3"; /* do NOT define -f (format) here */
 static const int riodraw_borders         = 0;  /* 0 or 1, indicates whether the area drawn using slop includes the window borders */
@@ -43,10 +43,8 @@ static const unsigned int maxhtab          = 200;  /* tab menu height */
 static int tagindicatortype              = INDICATOR_TOP_LEFT_SQUARE;
 static int tiledindicatortype            = INDICATOR_NONE;
 static int floatindicatortype            = INDICATOR_TOP_LEFT_SQUARE;
-static int fakefsindicatortype           = INDICATOR_PLUS;
-static int floatfakefsindicatortype      = INDICATOR_PLUS_AND_LARGER_SQUARE;
-static const char *fonts[]               = { "monospace:size=10", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" };
-static const char dmenufont[]            = "monospace:size=10";
+static const char *fonts[]               = { "monospace:size=14", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" };
+static const char dmenufont[]            = "monospace:size=14";
 
 static char c000000[]                    = "#000000"; // placeholder value
 
@@ -152,8 +150,8 @@ static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
 */
 static char *tagicons[][NUMTAGS] =
 {
-[DEFAULT_TAGS]        = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
-[ALTERNATIVE_TAGS]    = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
+[DEFAULT_TAGS]    = { "🖥️", "🌍", "🎵", "👵", "🤩", "👴", "", "", "" },
+[ALTERNATIVE_TAGS]        = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 [ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
 
@@ -187,8 +185,12 @@ RULE(.wintype = WTYPE "DIALOG", .isfloating = 1)
 RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
-RULE(.class = "Gimp", .tags = 1 << 4)
-RULE(.class = "$BROWSER", .tags = 1 << 7)
+RULE(.title = "tmux", .tags= 1 << 0)
+RULE(.class = "qutebrowser", .tags = 1 << 1)
+RULE(.class = MUSICPLAYER, .tags = 1 << 2)
+RULE(.class = "firefox", .tags = 1 << 6)
+RULE(.class = "discord", .tags = 1 << 7)
+RULE(.class = "steam", .tags = 1 << 8)
 RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 };
 
@@ -251,7 +253,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { TERMINAL, NULL };
 static const char *dmenucmd[] = {
 "dmenu_run",
 "-m", dmenumon,
@@ -267,10 +269,84 @@ NULL
 #define STATUSBAR "dwmblocks"
 
 
+#include <X11/XF86keysym.h>
+
 static const Key keys[] = {
 /* modifier                     key            function                argument */
 { MODKEY,			XK_grave,	spawn,			{.v = (const char*[]){ "dmenuunicode", NULL } } },
 { MODKEY,			XK_BackSpace,	spawn,			{.v = (const char*[]){ "sysact", NULL } } },
+{ MODKEY,			XK_minus,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
+{ MODKEY|ShiftMask,		XK_minus,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") },
+{ MODKEY,			XK_equal,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -44 $(pidof dwmblocks)") },
+{ MODKEY|ShiftMask,		XK_equal,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") },
+{ MODKEY,			XK_Tab,		view,		{0} },
+{ MODKEY,			XK_w,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
+{ MODKEY|ShiftMask,		XK_w,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "sudo", "nmtui", NULL } } },
+{ MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir ~/.abook 2>/dev/null") },
+{ MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
+{ MODKEY,			XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } } },
+{ MODKEY|ShiftMask,		XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
+{ MODKEY,			XK_n,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "nvim", "-c", "VimwikiIndex", NULL } } },
+{ MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
+
+{ MODKEY,			XK_Left,	focusmon,	{.i = -1 } },
+{ MODKEY|ShiftMask,		XK_Left,	tagmon,		{.i = -1 } },
+{ MODKEY,			XK_Right,	focusmon,	{.i = +1 } },
+{ MODKEY|ShiftMask,		XK_Right,	tagmon,		{.i = +1 } },
+
+{ MODKEY,			XK_Page_Up,	shiftview,	{ .i = -1 } },
+{ MODKEY|ShiftMask,		XK_Page_Up,	shifttag,	{ .i = -1 } },
+{ MODKEY,			XK_Page_Down,	shiftview,	{ .i = +1 } },
+{ MODKEY|ShiftMask,		XK_Page_Down,	shifttag,	{ .i = +1 } },
+
+{ MODKEY,			XK_F1,		spawn,		SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") },
+{ MODKEY,			XK_F2,		spawn,		{.v = (const char*[]){ "tutorialvids", NULL } } },
+{ MODKEY,			XK_F3,		spawn,		{.v = (const char*[]){ "displayselect", NULL } } },
+{ MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") },
+{ MODKEY,			XK_F5,		xrdb,		{.v = NULL } },
+{ MODKEY,			XK_F6,		spawn,		{.v = (const char*[]){ "torwrap", NULL } } },
+{ MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "td-toggle", NULL } } },
+{ MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mailsync", NULL } } },
+{ MODKEY,			XK_F9,		spawn,		{.v = (const char*[]){ "mounter", NULL } } },
+{ MODKEY,			XK_F10,		spawn,		{.v = (const char*[]){ "unmounter", NULL } } },
+{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
+{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },
+
+{ 0,				XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send 'screenshot taken'") },
+{ ShiftMask,			XK_Print,	spawn,		{.v = (const char*[]){ "maimpick", NULL } } },
+{ MODKEY,			XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", NULL } } },
+{ MODKEY|ShiftMask,		XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
+{ MODKEY,			XK_Delete,	spawn,		{.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
+{ MODKEY,			XK_Scroll_Lock,	spawn,		SHCMD("killall screenkey || screenkey &") },
+
+{ 0, XF86XK_AudioMute,		spawn,		SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
+{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%+; kill -44 $(pidof dwmblocks)") },
+{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-; kill -44 $(pidof dwmblocks)") },
+{ 0, XF86XK_AudioPrev,		spawn,		{.v = (const char*[]){ "mpc", "prev", NULL } } },
+{ 0, XF86XK_AudioNext,		spawn,		{.v = (const char*[]){ "mpc",  "next", NULL } } },
+{ 0, XF86XK_AudioPause,		spawn,		{.v = (const char*[]){ "mpc", "pause", NULL } } },
+{ 0, XF86XK_AudioPlay,		spawn,		{.v = (const char*[]){ "mpc", "play", NULL } } },
+{ 0, XF86XK_AudioStop,		spawn,		{.v = (const char*[]){ "mpc", "stop", NULL } } },
+{ 0, XF86XK_AudioRewind,	spawn,		{.v = (const char*[]){ "mpc", "seek", "-10", NULL } } },
+{ 0, XF86XK_AudioForward,	spawn,		{.v = (const char*[]){ "mpc", "seek", "+10", NULL } } },
+{ 0, XF86XK_AudioMedia,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp", NULL } } },
+{ 0, XF86XK_AudioMicMute,	spawn,		SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
+{ 0, XF86XK_PowerOff,		spawn,		{.v = (const char*[]){ "sysact", NULL } } },
+{ 0, XF86XK_Calculator,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "bc", "-l", NULL } } },
+{ 0, XF86XK_Sleep,		spawn,		{.v = (const char*[]){ "sudo", "-A", "zzz", NULL } } },
+{ 0, XF86XK_WWW,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
+{ 0, XF86XK_DOS,		spawn,		{.v = termcmd } },
+{ 0, XF86XK_ScreenSaver,	spawn,		SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
+{ 0, XF86XK_TaskPane,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
+{ 0, XF86XK_Mail,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") },
+{ 0, XF86XK_MyComputer,		spawn,		{.v = (const char*[]){ TERMINAL, "-e",  "lfub",  "/", NULL } } },
+/* { 0, XF86XK_Battery,		spawn,		SHCMD("") }, */
+{ 0, XF86XK_Launch1,		spawn,		{.v = (const char*[]){ "xset", "dpms", "force", "off", NULL } } },
+{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+{ 0, XF86XK_TouchpadOff,	spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } },
+{ 0, XF86XK_TouchpadOn,		spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } },
+{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "15", NULL } } },
+{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "15", NULL } } },
 /* { MODKEY,                       XK_d,          spawn,                  {.v = dmenucmd } }, */
 { MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
 { MODKEY,		        XK_Return,     spawn,                  {.v = termcmd } },
@@ -278,11 +354,8 @@ static const Key keys[] = {
 { MODKEY|ControlMask,           XK_Return,     riospawn,               {.v = termcmd } },
 { MODKEY,                       XK_s,          rioresize,              {0} },
 { MODKEY,                       XK_b,          togglebar,              {0} },
-{ MODKEY|ControlMask,           XK_space,      focusmaster,            {0} },
 { MODKEY,                       XK_j,          focusstack,             {.i = +1 } },
 { MODKEY,                       XK_k,          focusstack,             {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_j,          rotatestack,            {.i = +1 } },
-{ MODKEY|Mod1Mask,              XK_k,          rotatestack,            {.i = -1 } },
 { MODKEY,                       XK_h,          setmfact,               {.f = -0.05} },
 { MODKEY,                       XK_l,          setmfact,               {.f = +0.05} },
 { MODKEY|ShiftMask,             XK_h,          setcfact,               {.f = +0.25} },
@@ -290,28 +363,23 @@ static const Key keys[] = {
 { MODKEY|ShiftMask,             XK_o,          setcfact,               {0} },
 { MODKEY|ShiftMask,             XK_j,          movestack,              {.i = +1 } },
 { MODKEY|ShiftMask,             XK_k,          movestack,              {.i = -1 } },
-{ MODKEY,                       XK_x,          transfer,               {0} },
 { MODKEY|ControlMask,           XK_d,          distributetags,         {0} },
-{ MODKEY,                       XK_Return,     zoom,                   {0} },
+{ MODKEY,                       XK_space,     zoom,                   {0} },
 { Mod1Mask,                     XK_Tab,        alttabstart,            {0} },
 { MODKEY,             		XK_q,          killclient,             {0} },
 { MODKEY|ShiftMask,             XK_x,          killunsel,              {0} },
 { MODKEY|ShiftMask,             XK_q,          quit,                   {0} },
-{ MODKEY,                       XK_o,          winview,                {0} },
 { MODKEY|ShiftMask,             XK_F5,         xrdb,                   {.v = NULL } },
 { MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
-{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
 { MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
 { MODKEY,                       XK_c,          setlayout,              {.v = &layouts[3]} },
-{ MODKEY,                       XK_space,      setlayout,              {0} },
-{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
+{ MODKEY,                       XK_f,          setlayout,              {0} },
+{ MODKEY|ShiftMask,             XK_f,          togglefloating,         {0} },
 { MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} },
 { MODKEY|ShiftMask,             XK_Return,     togglescratch,          {.v = scratchpadcmd } },
 { MODKEY|ControlMask,           XK_grave,      setscratch,             {.v = scratchpadcmd } },
 { MODKEY|ShiftMask,             XK_grave,      removescratch,          {.v = scratchpadcmd } },
 { MODKEY,                       XK_y,          togglefullscreen,       {0} },
-{ MODKEY|ShiftMask,             XK_y,          togglefakefullscreen,   {0} },
-{ MODKEY|ShiftMask,             XK_f,          fullscreen,             {0} },
 { MODKEY|ShiftMask,             XK_s,          togglesticky,           {0} },
 { MODKEY,                       XK_0,          view,                   {.ui = ~0 } },
 { MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
@@ -321,46 +389,7 @@ static const Key keys[] = {
 { MODKEY|ShiftMask,             XK_period,     tagmon,                 {.i = +1 } },
 { MODKEY|Mod1Mask|ShiftMask,    XK_comma,      tagallmon,              {.i = +1 } },
 { MODKEY|Mod1Mask|ShiftMask,    XK_period,     tagallmon,              {.i = -1 } },
-/* Note that due to key limitations the below example kybindings are defined with a Mod3Mask,
- * which is not always readily available. Refer to the patch wiki for more details. */
-/* Client position is limited to monitor window area */
-{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
-{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑
-{ Mod3Mask,                     XK_o,            floatpos,               {.v = " 26x -26y" } }, // ↗
-{ Mod3Mask,                     XK_j,            floatpos,               {.v = "-26x   0y" } }, // ←
-{ Mod3Mask,                     XK_l,            floatpos,               {.v = " 26x   0y" } }, // →
-{ Mod3Mask,                     XK_m,            floatpos,               {.v = "-26x  26y" } }, // ↙
-{ Mod3Mask,                     XK_comma,        floatpos,               {.v = "  0x  26y" } }, // ↓
-{ Mod3Mask,                     XK_period,       floatpos,               {.v = " 26x  26y" } }, // ↘
-/* Absolute positioning (allows moving windows between monitors) */
-{ Mod3Mask|ControlMask,         XK_u,            floatpos,               {.v = "-26a -26a" } }, // ↖
-{ Mod3Mask|ControlMask,         XK_i,            floatpos,               {.v = "  0a -26a" } }, // ↑
-{ Mod3Mask|ControlMask,         XK_o,            floatpos,               {.v = " 26a -26a" } }, // ↗
-{ Mod3Mask|ControlMask,         XK_j,            floatpos,               {.v = "-26a   0a" } }, // ←
-{ Mod3Mask|ControlMask,         XK_l,            floatpos,               {.v = " 26a   0a" } }, // →
-{ Mod3Mask|ControlMask,         XK_m,            floatpos,               {.v = "-26a  26a" } }, // ↙
-{ Mod3Mask|ControlMask,         XK_comma,        floatpos,               {.v = "  0a  26a" } }, // ↓
-{ Mod3Mask|ControlMask,         XK_period,       floatpos,               {.v = " 26a  26a" } }, // ↘
-/* Resize client, client center position is fixed which means that client expands in all directions */
-{ Mod3Mask|ShiftMask,           XK_u,            floatpos,               {.v = "-26w -26h" } }, // ↖
-{ Mod3Mask|ShiftMask,           XK_i,            floatpos,               {.v = "  0w -26h" } }, // ↑
-{ Mod3Mask|ShiftMask,           XK_o,            floatpos,               {.v = " 26w -26h" } }, // ↗
-{ Mod3Mask|ShiftMask,           XK_j,            floatpos,               {.v = "-26w   0h" } }, // ←
-{ Mod3Mask|ShiftMask,           XK_k,            floatpos,               {.v = "800W 800H" } }, // ·
-{ Mod3Mask|ShiftMask,           XK_l,            floatpos,               {.v = " 26w   0h" } }, // →
-{ Mod3Mask|ShiftMask,           XK_m,            floatpos,               {.v = "-26w  26h" } }, // ↙
-{ Mod3Mask|ShiftMask,           XK_comma,        floatpos,               {.v = "  0w  26h" } }, // ↓
-{ Mod3Mask|ShiftMask,           XK_period,       floatpos,               {.v = " 26w  26h" } }, // ↘
-/* Client is positioned in a floating grid, movement is relative to client's current position */
-{ Mod3Mask|Mod1Mask,            XK_u,            floatpos,               {.v = "-1p -1p" } }, // ↖
-{ Mod3Mask|Mod1Mask,            XK_i,            floatpos,               {.v = " 0p -1p" } }, // ↑
-{ Mod3Mask|Mod1Mask,            XK_o,            floatpos,               {.v = " 1p -1p" } }, // ↗
-{ Mod3Mask|Mod1Mask,            XK_j,            floatpos,               {.v = "-1p  0p" } }, // ←
-{ Mod3Mask|Mod1Mask,            XK_k,            floatpos,               {.v = " 0p  0p" } }, // ·
-{ Mod3Mask|Mod1Mask,            XK_l,            floatpos,               {.v = " 1p  0p" } }, // →
-{ Mod3Mask|Mod1Mask,            XK_m,            floatpos,               {.v = "-1p  1p" } }, // ↙
-{ Mod3Mask|Mod1Mask,            XK_comma,        floatpos,               {.v = " 0p  1p" } }, // ↓
-{ Mod3Mask|Mod1Mask,            XK_period,       floatpos,               {.v = " 1p  1p" } }, // ↘
+{ MODKEY|ShiftMask,             XK_b,          togglealttag,           {0} },
 { MODKEY|ControlMask,           XK_comma,      cyclelayout,            {.i = -1 } },
 { MODKEY|ControlMask,           XK_period,     cyclelayout,            {.i = +1 } },
 TAGKEYS(                        XK_1,                                  0)
@@ -388,8 +417,7 @@ static const Button buttons[] = {
 { ClkStatusText,        0,                   Button3,        sigstatusbar,   {.i = 3 } },
 { ClkStatusText,        0,                   Button4,        sigstatusbar,   {.i = 4 } },
 { ClkStatusText,        0,                   Button5,        sigstatusbar,   {.i = 5 } },
-{ ClkStatusText,        0,                   Button6,        sigstatusbar,   {.i = 6 } },
-{ ClkStatusText,        ShiftMask,           Button1,        sigstatusbar,   {.i = 7 } },
+{ ClkStatusText,        ShiftMask,           Button6,        sigstatusbar,   {.i = 7 } },
 /* placemouse options, choose which feels more natural:
  *    0 - tiled position is relative to mouse cursor
  *    1 - tiled postiion is relative to window center
@@ -403,18 +431,10 @@ static const Button buttons[] = {
 { ClkClientWin,         MODKEY,              Button1,        moveorplace,    {.i = 1} },
 { ClkClientWin,         MODKEY,              Button2,        togglefloating, {0} },
 { ClkClientWin,         MODKEY,              Button3,        resizemouse,    {0} },
-{ ClkClientWin,         MODKEY|ShiftMask,    Button3,        dragcfact,      {0} },
 { ClkTagBar,            0,                   Button1,        view,           {0} },
 { ClkTagBar,            0,                   Button3,        toggleview,     {0} },
 { ClkTagBar,            MODKEY,              Button1,        tag,            {0} },
 { ClkTagBar,            MODKEY,              Button3,        toggletag,      {0} },
 };
 
-/* signal definitions */
-/* signum must be greater than 0 */
-/* trigger signals using `xsetroot -name "fsignal:<signum>"` */
-static Signal signals[] = {
-/* signum       function        argument  */
-{ 1,            setlayout,      {.v = 0} },
-};
 
