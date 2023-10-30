@@ -75,8 +75,8 @@ unswallow(Client *c)
 	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
 
 	setclientstate(c, NormalState);
-	focus(NULL);
 	arrange(c->mon);
+	focus(NULL);
 }
 
 pid_t

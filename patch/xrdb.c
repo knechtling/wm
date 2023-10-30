@@ -74,7 +74,6 @@ xrdb(const Arg *arg)
 		scheme[i] = drw_scm_create(drw, colors[i],
 		ColCount
 		);
-	focus(NULL);
 	arrange(NULL);
+	focus(NULL);
 }
-

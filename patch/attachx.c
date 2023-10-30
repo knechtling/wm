@@ -17,9 +17,10 @@ attachx(Client *c)
 		}
 	}
 
-	if (!(c->mon->sel == NULL || c->mon->sel == c || c->mon->sel->isfloating)) {
-		c->next = c->mon->sel->next;
-		c->mon->sel->next = c;
+	for (at = c->mon->clients; at && at->next; at = at->next);
+	if (at) {
+		at->next = c;
+		c->next = NULL;
 		return;
 	}
 	attach(c); // master (default)

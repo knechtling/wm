@@ -15,6 +15,6 @@ distributetags(const Arg *arg)
 		i = (i + 1) % NUMTAGS;
 	}
 
-	focus(NULL);
 	arrange(selmon);
+	focus(NULL);
 }
