@@ -5,6 +5,7 @@
 #define TERMCLASS "St"
 #define BROWSER "firefox"
 #define MUSICPLAYER "Sonixd"
+#define EMAILCLIENT "thunderbird"
 
 /* appearance */
 static const unsigned int borderpx       = 3;   /* border pixel of windows */
@@ -187,6 +188,7 @@ RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 RULE(.title = "tmux", .tags= 1 << 0)
 RULE(.class = "qutebrowser", .tags = 1 << 1)
+RULE(.class = EMAILCLIENT, .tags = 1 << 1)
 RULE(.class = MUSICPLAYER, .tags = 1 << 2)
 RULE(.class = "firefox", .tags = 1 << 6)
 RULE(.class = "discord", .tags = 1 << 7)
@@ -436,5 +438,3 @@ static const Button buttons[] = {
 { ClkTagBar,            MODKEY,              Button1,        tag,            {0} },
 { ClkTagBar,            MODKEY,              Button3,        toggletag,      {0} },
 };
-
-
