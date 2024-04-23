@@ -186,6 +186,7 @@ RULE(.wintype = WTYPE "DIALOG", .isfloating = 1)
 RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
+RULE(.class = "help-window", .isfloating = 1)
 RULE(.title = "tmux", .tags= 1 << 0)
 RULE(.class = "qutebrowser", .tags = 1 << 1)
 RULE(.class = EMAILCLIENT, .tags = 1 << 1)
@@ -275,16 +276,15 @@ NULL
 
 static const Key keys[] = {
 /* modifier                     key            function                argument */
-{ MODKEY,			XK_grave,	spawn,			{.v = (const char*[]){ "dmenuunicode", NULL } } },
-{ MODKEY,			XK_BackSpace,	spawn,			{.v = (const char*[]){ "sysact", NULL } } },
-{ MODKEY,			XK_minus,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
-{ MODKEY|ShiftMask,		XK_minus,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") },
-{ MODKEY,			XK_equal,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -44 $(pidof dwmblocks)") },
-{ MODKEY|ShiftMask,		XK_equal,	spawn,			SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") },
+{ MODKEY,			XK_BackSpace,	spawn,		{.v = (const char*[]){ "sysact", NULL } } },
+{ MODKEY,			XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
+{ MODKEY|ShiftMask,		XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") },
+{ MODKEY,			XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -44 $(pidof dwmblocks)") },
+{ MODKEY|ShiftMask,		XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") },
 { MODKEY,			XK_Tab,		view,		{0} },
 { MODKEY,			XK_w,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
 { MODKEY|ShiftMask,		XK_w,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "sudo", "nmtui", NULL } } },
-{ MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir ~/.abook 2>/dev/null") },
+{ MODKEY,			XK_e,		spawn,		{.v = (const char*[]){ EMAILCLIENT, NULL } } },
 { MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
 { MODKEY,			XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } } },
 { MODKEY|ShiftMask,		XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
@@ -301,13 +301,14 @@ static const Key keys[] = {
 { MODKEY,			XK_Page_Down,	shiftview,	{ .i = +1 } },
 { MODKEY|ShiftMask,		XK_Page_Down,	shifttag,	{ .i = +1 } },
 
-{ MODKEY,			XK_F1,		spawn,		SHCMD("zathura /home/anton/Nextcloud/wichtige Unterlagen/Tokenverwaltung-Indexed Secret.pdf") },
+{ MODKEY,			XK_F1,		spawn,		SHCMD("zathura /home/anton/Nextcloud/dox/important/tud-indexed-secret.pdf") },
 { MODKEY,			XK_F2,		spawn,		{.v = (const char*[]){ "tutorialvids", NULL } } },
 { MODKEY,			XK_F3,		spawn,		{.v = (const char*[]){ "displayselect", NULL } } },
 { MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") },
 { MODKEY,			XK_F5,		xrdb,		{.v = NULL } },
 { MODKEY,			XK_F6,		spawn,		{.v = (const char*[]){ "torwrap", NULL } } },
 { MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "td-toggle", NULL } } },
+{ MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "dmenuunicode", NULL } } },
 { MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mailsync", NULL } } },
 { MODKEY,			XK_F9,		spawn,		{.v = (const char*[]){ "mounter", NULL } } },
 { MODKEY,			XK_F10,		spawn,		{.v = (const char*[]){ "unmounter", NULL } } },
