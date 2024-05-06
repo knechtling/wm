@@ -151,7 +151,7 @@ static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
 */
 static char *tagicons[][NUMTAGS] =
 {
-[DEFAULT_TAGS]    = { "🖥️", "🖥️", "🌍", "👵", "🤩", "👴", "", "", "🎵" },
+[DEFAULT_TAGS]    = { "", "📧", "🖥️", "🌍", "👵", "👴", "", "🎵", "" },
 [ALTERNATIVE_TAGS]        = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 [ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
@@ -187,12 +187,11 @@ RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 RULE(.class = "help-window", .isfloating = 1)
-RULE(.title = "tmux", .tags= 1 << 0)
-RULE(.class = "qutebrowser", .tags = 1 << 1)
+RULE(.class = "firefox", .tags = 1 << 0)
 RULE(.class = EMAILCLIENT, .tags = 1 << 1)
-RULE(.class = MUSICPLAYER, .tags = 1 << 2)
-RULE(.class = "firefox", .tags = 1 << 6)
-RULE(.class = "discord", .tags = 1 << 7)
+RULE(.title = "tmux", .tags= 1 << 2)
+RULE(.class = "discord", .tags = 1 << 6)
+RULE(.class = MUSICPLAYER, .tags = 1 << 7)
 RULE(.class = "steam", .tags = 1 << 8)
 RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 };
