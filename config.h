@@ -55,9 +55,9 @@ static char normbordercolor[]            = "#444444";
 static char normfloatcolor[]             = "#db8fd9";
 
 static char selfgcolor[]                 = "#eeeeee";
-static char selbgcolor[]                 = "#005577";
-static char selbordercolor[]             = "#005577";
-static char selfloatcolor[]              = "#005577";
+static char selbgcolor[]                 = "#3a0000";
+static char selbordercolor[]             = "#3a0000";
+static char selfloatcolor[]              = "#3a0000";
 
 static char titlenormfgcolor[]           = "#bbbbbb";
 static char titlenormbgcolor[]           = "#222222";
@@ -65,22 +65,21 @@ static char titlenormbordercolor[]       = "#444444";
 static char titlenormfloatcolor[]        = "#db8fd9";
 
 static char titleselfgcolor[]            = "#eeeeee";
-static char titleselbgcolor[]            = "#005577";
-static char titleselbordercolor[]        = "#005577";
-static char titleselfloatcolor[]         = "#005577";
+static char titleselbgcolor[]            = "#444444";
+static char titleselbordercolor[]        = "#444444";
+static char titleselfloatcolor[]         = "#444444";
 
 static char tagsnormfgcolor[]            = "#bbbbbb";
 static char tagsnormbgcolor[]            = "#222222";
 static char tagsnormbordercolor[]        = "#444444";
-static char tagsnormfloatcolor[]         = "#db8fd9";
-
+static char tagsnormfloatcolor[]         = "#444444";
 static char tagsselfgcolor[]             = "#eeeeee";
-static char tagsselbgcolor[]             = "#005577";
-static char tagsselbordercolor[]         = "#005577";
-static char tagsselfloatcolor[]          = "#005577";
+static char tagsselbgcolor[]             = "#444444";
+static char tagsselbordercolor[]         = "#444444";
+static char tagsselfloatcolor[]          = "#444444";
 
-static char hidnormfgcolor[]             = "#005577";
-static char hidselfgcolor[]              = "#227799";
+static char hidnormfgcolor[]             = "#894B9F";
+static char hidselfgcolor[]              = "#894B9F";
 static char hidnormbgcolor[]             = "#222222";
 static char hidselbgcolor[]              = "#222222";
 
@@ -151,7 +150,7 @@ static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
 */
 static char *tagicons[][NUMTAGS] =
 {
-[DEFAULT_TAGS]    = { "", "📧", "🖥️", "🌍", "👵", "👴", "", "🎵", "" },
+[DEFAULT_TAGS]    = { "", "", "", "", "", "", "", "🇩🇪", "" },
 [ALTERNATIVE_TAGS]        = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 [ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
@@ -187,12 +186,10 @@ RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 RULE(.class = "help-window", .isfloating = 1)
-RULE(.class = "firefox", .tags = 1 << 0)
 RULE(.class = EMAILCLIENT, .tags = 1 << 1)
 RULE(.title = "tmux", .tags= 1 << 2)
-RULE(.class = "discord", .tags = 1 << 6)
-RULE(.class = MUSICPLAYER, .tags = 1 << 7)
-RULE(.class = "steam", .tags = 1 << 8)
+RULE(.class = "discord", .tags = 1 << 7)
+RULE(.class = MUSICPLAYER, .tags = 1 << 8)
 RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 };
 
@@ -287,7 +284,9 @@ static const Key keys[] = {
 { MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
 { MODKEY,			XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } } },
 { MODKEY|ShiftMask,		XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
-{ MODKEY,			XK_n,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "nvim", "-c", "VimwikiIndex", NULL } } },
+{ MODKEY|ShiftMask,		XK_y,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ytfzf", "-t", NULL } } },
+{ MODKEY,			XK_n,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "nvim", "-c", "WikiIndex", NULL } } },
+
 { MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
 
 { MODKEY,			XK_Left,	focusmon,	{.i = -1 } },
@@ -307,14 +306,15 @@ static const Key keys[] = {
 { MODKEY,			XK_F5,		xrdb,		{.v = NULL } },
 { MODKEY,			XK_F6,		spawn,		{.v = (const char*[]){ "torwrap", NULL } } },
 { MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "dmenuunicode", NULL } } },
-{ MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mailsync", NULL } } },
+{ MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "maimpick", NULL } } },
+{ MODKEY|ShiftMask,		XK_F8,		spawn,		{.v = (const char*[]){ "ss-uni", NULL } } },
 { MODKEY,			XK_F9,		spawn,		{.v = (const char*[]){ "mounter", NULL } } },
 { MODKEY,			XK_F10,		spawn,		{.v = (const char*[]){ "unmounter", NULL } } },
 { MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
 { MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },
 
 { 0,				XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send 'screenshot taken'") },
-{ ShiftMask,			XK_Print,	spawn,		{.v = (const char*[]){ "maimpick", NULL } } },
+{ MODKEY,			XK_Print,	spawn,		{.v = (const char*[]){ "maimpick", NULL } } },
 { MODKEY,			XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", NULL } } },
 { MODKEY|ShiftMask,		XK_Print,	spawn,		{.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
 { MODKEY,			XK_Delete,	spawn,		{.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
@@ -373,7 +373,6 @@ static const Key keys[] = {
 { MODKEY|ShiftMask,             XK_F5,         xrdb,                   {.v = NULL } },
 { MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
 { MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
-{ MODKEY,                       XK_c,          setlayout,              {.v = &layouts[3]} },
 { MODKEY,                       XK_f,          setlayout,              {0} },
 { MODKEY|ShiftMask,             XK_f,          togglefloating,         {0} },
 { MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} },

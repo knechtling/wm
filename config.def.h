@@ -4,7 +4,7 @@
 #define TERMINAL "st"
 #define TERMCLASS "St"
 #define BROWSER "firefox"
-#define MUSICPLAYER "Sonixd"
+#define MUSICPLAYER "feishin"
 #define EMAILCLIENT "thunderbird"
 
 /* appearance */
@@ -151,7 +151,7 @@ static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
 */
 static char *tagicons[][NUMTAGS] =
 {
-[DEFAULT_TAGS]    = { "🖥️", "🌍", "🎵", "👵", "🤩", "👴", "", "", "" },
+[DEFAULT_TAGS]    = { "", "📧", "🖥️", "🌍", "👵", "👴", "", "🎵", "" },
 [ALTERNATIVE_TAGS]        = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 [ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
@@ -187,12 +187,11 @@ RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 RULE(.class = "help-window", .isfloating = 1)
-RULE(.title = "tmux", .tags= 1 << 0)
-RULE(.class = "qutebrowser", .tags = 1 << 1)
+RULE(.class = "firefox", .tags = 1 << 0)
 RULE(.class = EMAILCLIENT, .tags = 1 << 1)
-RULE(.class = MUSICPLAYER, .tags = 1 << 2)
-RULE(.class = "firefox", .tags = 1 << 6)
-RULE(.class = "discord", .tags = 1 << 7)
+RULE(.title = "tmux", .tags= 1 << 2)
+RULE(.class = "discord", .tags = 1 << 6)
+RULE(.class = MUSICPLAYER, .tags = 1 << 7)
 RULE(.class = "steam", .tags = 1 << 8)
 RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 };
@@ -288,7 +287,8 @@ static const Key keys[] = {
 { MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
 { MODKEY,			XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } } },
 { MODKEY|ShiftMask,		XK_r,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
-{ MODKEY,			XK_n,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "nvim", "-c", "VimwikiIndex", NULL } } },
+{ MODKEY|ShiftMask,		XK_y,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ytfzf", "-t", NULL } } },
+{ MODKEY,			XK_n,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "nvim", "-c", "WikiIndex", NULL } } },
 { MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
 
 { MODKEY,			XK_Left,	focusmon,	{.i = -1 } },
@@ -307,7 +307,6 @@ static const Key keys[] = {
 { MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") },
 { MODKEY,			XK_F5,		xrdb,		{.v = NULL } },
 { MODKEY,			XK_F6,		spawn,		{.v = (const char*[]){ "torwrap", NULL } } },
-{ MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "td-toggle", NULL } } },
 { MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "dmenuunicode", NULL } } },
 { MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mailsync", NULL } } },
 { MODKEY,			XK_F9,		spawn,		{.v = (const char*[]){ "mounter", NULL } } },
@@ -348,8 +347,8 @@ static const Key keys[] = {
 { 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 { 0, XF86XK_TouchpadOff,	spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } },
 { 0, XF86XK_TouchpadOn,		spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } },
-{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "15", NULL } } },
-{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "15", NULL } } },
+{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "brightnessctl", "set", "+15%", NULL } } },
+{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "set", "15%-", NULL } } },
 /* { MODKEY,                       XK_d,          spawn,                  {.v = dmenucmd } }, */
 { MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
 { MODKEY,		        XK_Return,     spawn,                  {.v = termcmd } },
