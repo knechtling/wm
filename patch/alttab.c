@@ -1,7 +1,10 @@
 int alttabn;          /* move that many clients forward */
+int alttabnc;		  /* move that many clients forward when using tab for same class */
 int ntabs;            /* number of active clients in tag */
+int nctabs;			  /* number of active clients under same class in tag */
 int isalt;
 Client **altsnext;    /* array of all clients in the tag */
+Client **altsnextclass;	/* array of all clients under same class in the tag */
 Window alttabwin;
 
 void
@@ -16,12 +19,66 @@ alttab()
 			alttabn = 0; /* reset alttabn */
 
 		focus(altsnext[alttabn]);
-		restack(m);
+		/* restack(m); */
 	}
 
 	/* redraw tab */
 	XRaiseWindow(dpy, alttabwin);
 	drawtab(ntabs, 0, m);
+}
+
+alttabclass()
+{
+	/* move to next window */
+	if (sel != NULL) {
+		alttabnc++;
+		if (alttabnc >= nctabs)
+			alttabnc = 0; /* reset alttabnc */
+
+		focus(altsnextclass[alttabnc]);
+	}
+
+	/* redraw tab */
+	XRaiseWindow(dpy, tabwin);
+	drawtab(nctabs, 0, selmon);
+}
+
+void
+alttabshift()
+{
+	/* move to prev window */
+	if (sel != NULL) {
+		alttabn--;
+		if (alttabn < 0)
+			alttabn = ntabs - 1; /* reset alttabn */
+
+		if (altsnext[alttabn]) {
+			focus(altsnext[alttabn]);
+		}
+ 	}
+ 
+	/* redraw tab */
+	XRaiseWindow(dpy, tabwin);
+	drawtab(ntabs, 0, selmon);
+}
+ 
+void
+alttabshiftclass()
+{
+	/* move to prev window */
+	if (sel != NULL) {
+		alttabnc--;
+		if (alttabnc < 0)
+			alttabnc = nctabs - 1; /* reset alttabnc */
+
+		if (altsnextclass[alttabnc]) {
+			focus(altsnextclass[alttabnc]);
+		}
+	}
+
+	/* redraw tab */
+	XRaiseWindow(dpy, tabwin);
+	drawtab(nctabs, 0, selmon);
 }
 
 void
@@ -31,6 +88,7 @@ alttabend()
 	Client *buff;
 	int i;
 
+	Client *buff = NULL;
 	if (!isalt)
 		return;
 
@@ -40,7 +98,15 @@ alttabend()
 	 */
 	if (ntabs > 1) {
 		if (alttabn != 0) { /* if user picked original client do nothing */
-			buff = altsnext[alttabn];
+       		buff = altsnext[alttabn];
+		else if (alttabnc != 0) {
+			buff = altsnextclass[alttabnc];
+			for (; alttabn < ntabs; alttabn++)
+				if (altsnext[alttabn] == altsnextclass[alttabnc])
+					break;
+		}
+		if (buff) { /* if user picked original client do nothing */
+
 			if (alttabn > 1)
 				for (i = alttabn; i > 0; i--)
 					altsnext[i] = altsnext[i - 1];
@@ -56,6 +122,7 @@ alttabend()
 		}
 
 		free(altsnext); /* free list of clients */
+		free(altsnextclass); /* free list of clients */
 	}
 
 	/* destroy the window */
@@ -102,9 +169,12 @@ drawtab(int nwins, int first, Monitor *m)
 		XMapRaised(dpy, alttabwin);
 	}
 
-	h = maxhtab / ntabs;
-	for (i = 0; i < ntabs; i++) { /* draw all clients into tabwin */
-		c = altsnext[i];
+	h = maxhtab / nwins;
+	for (int i = 0; i < nwins; i++) { /* draw all clients into tabwin */
+		if (nwins == m->ntabs)
+			c = m->altsnext[i];
+		else
+			c = m->altsnextclass[i];
 		if (!ISVISIBLE(c))
 			continue;
 		if (HIDDEN(c))
@@ -127,7 +197,6 @@ alttabstart(const Arg *arg)
 	int grabbed;
 	int i;
 
-	altsnext = NULL;
 	if (alttabwin)
 		alttabend();
 
@@ -136,9 +205,16 @@ alttabstart(const Arg *arg)
 		return;
 	}
 
+	char tempclass[256] = {'\0'};
+	if (selmon->sel)
+		strncpy(tempclass, selmon->sel->class, 256);
+
+
 	isalt = 1;
 	alttabn = 0;
+	alttabnc = 0;
 	ntabs = 0;
+	nctabs = 0;
 
 	for (c = m->clients; c; c = c->next) {
 		if (!ISVISIBLE(c))
@@ -147,6 +223,8 @@ alttabstart(const Arg *arg)
 			continue;
 
 		++ntabs;
+		if (!strcmp(c->class, tempclass))
+			++m->ncTabs;
 	}
 
 	if (!ntabs) {
@@ -155,6 +233,9 @@ alttabstart(const Arg *arg)
 	}
 
 	altsnext = (Client **) malloc(ntabs * sizeof(Client *));
+	altsnextclass = (Client **) malloc(ncTabs * sizeof(Client *));
+
+	int listIndexc = 0;
 
 	for (i = 0, c = m->stack; c; c = c->snext) {
 		if (!ISVISIBLE(c))
@@ -164,9 +245,15 @@ alttabstart(const Arg *arg)
 
 		altsnext[i] = c;
 		i++;
+
+		if (!strcmp(c->class, tempclass))
+			m->altsnextclass[listIndexc++] = c;
 	}
 
-	drawtab(ntabs, 1, m);
+	if (arg->i)
+		drawtab(ntabs, 1, m);
+	else
+		drawtab(nctabs, 1, m);
 
 	struct timespec ts = { .tv_sec = 0, .tv_nsec = 1000000 };
 
@@ -182,6 +269,10 @@ alttabstart(const Arg *arg)
 
 	XEvent event;
 	alttab();
+	if (arg->i)
+		altTab();
+	else
+		altTabClass();
 
 	if (grabbed == 0) {
 		alttabend();
@@ -195,8 +286,19 @@ alttabstart(const Arg *arg)
 				break;
 
 			if (event.type == KeyPress) {
-				if (event.xkey.keycode == tabcyclekey) { /* if tab is pressed move to the next window */
-					alttab();
+				if (event.xkey.keycode == tabcyclekey || event.xkey.keycode == tabcyclekey2 ) { /* if xk_s is pressed move to the next window */
+					if (arg->i) {
+						if (CLEANMASK((Mod1Mask|ShiftMask)) == CLEANMASK(event.xkey.state))
+							alttabshift();
+						else
+							alttab();
+					} else {
+						if (CLEANMASK((Mod1Mask|ShiftMask)) == CLEANMASK(event.xkey.state))
+							alttabshiftclass();
+						else
+							alttabclass();
+					}
+
 				}
 			}
 		}

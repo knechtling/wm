@@ -203,6 +203,7 @@ typedef struct {
 typedef struct Client Client;
 struct Client {
 	char name[256];
+	char class[256];
 	float mina, maxa;
 	float cfact;
 	int x, y, w, h;
@@ -958,6 +959,7 @@ createmon(void)
 	m->num = mi;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
+	m->nctabs = 0;
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
 
 	/* Derive the number of bars for this monitor based on bar rules */
@@ -1507,6 +1509,7 @@ manage(Window w, XWindowAttributes *wa)
 	c->cfact = 1.0;
 	settings_restored = restoreclientstate(c);
 	updatetitle(c);
+	getclassname(c);
 
 
 	if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
@@ -2717,8 +2720,17 @@ updatetitle(Client *c)
 		gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
 	if (c->name[0] == '\0') /* hack to mark broken clients */
 		strcpy(c->name, broken);
-
 }
+void
+getclassname(Client *c)
+{
+	gettextprop(c->win, XA_WM_CLASS, c->class, sizeof c->class);
+	if (c->class[0] == '\0') /* hack to mark broken clients */
+		strcpy(c->name, broken);
+}
+
+
+
 
 void
 updatewmhints(Client *c)

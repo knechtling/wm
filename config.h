@@ -350,6 +350,7 @@ static const Key keys[] = {
 { 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "set", "15%-", NULL } } },
 /* { MODKEY,                       XK_d,          spawn,                  {.v = dmenucmd } }, */
 { MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
+{ MODKEY,			XK_c,		spawn,          {.v = (const char*[]){ "clipmenu", NULL } } },
 { MODKEY,		        XK_Return,     spawn,                  {.v = termcmd } },
 { MODKEY|ControlMask,           XK_p,          riospawnsync,           {.v = dmenucmd } },
 { MODKEY|ControlMask,           XK_Return,     riospawn,               {.v = termcmd } },
@@ -373,6 +374,8 @@ static const Key keys[] = {
 { MODKEY|ShiftMask,             XK_F5,         xrdb,                   {.v = NULL } },
 { MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
 { MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
+{ MODKEY|ShiftMask,             XK_d,          setlayout,              {.v = &layouts[4]} },
+{ MODKEY,                       XK_s,          setlayout,              {.v = &layouts[5]} },
 { MODKEY,                       XK_f,          setlayout,              {0} },
 { MODKEY|ShiftMask,             XK_f,          togglefloating,         {0} },
 { MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} },
