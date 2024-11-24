@@ -1,8 +1,8 @@
-                                               _                               _                   _          _                  _   
-                                            __| | __ __ __  _ __    ___   __  | |_    ___   __ _  | |_   ___ | |_    ___   ___  | |_ 
-                                           / _` | \ V  V / | '  \  |___| / _| | ' \  / -_) / _` | |  _| (_-< | ' \  / -_) / -_) |  _|
-                                           \__,_|  \_/\_/  |_|_|_|       \__| |_||_| \___| \__,_|  \__| /__/ |_||_| \___| \___|  \__|
-                                                                                                                                     
+                                              _                               _                   _          _                  _   
+                                           __| | __ __ __  _ __    ___   __  | |_    ___   __ _  | |_   ___ | |_    ___   ___  | |_ 
+                                          / _` | \ V  V / | '  \  |___| / _| | ' \  / -_) / _` | |  _| (_-< | ' \  / -_) / -_) |  _|
+                                          \__,_|  \_/\_/  |_|_|_|       \__| |_||_| \___| \__,_|  \__| /__/ |_||_| \___| \___|  \__|
+                                                                                                                                    
  ____________________________________
 / Source code at:                    \
 \ /home/anton/.local/src/wm/config.h /
@@ -18,144 +18,80 @@
     \___)=(___/
 
 
-[1;33mConstants:[0m
-[0;32mName                           [0;34mValue                     [0;31m                     [0m
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[0;32mTERMINAL                       [0;34m"st"[0m
-[0;32mTERMCLASS                      [0;34m"St"[0m
-[0;32mBROWSER                        [0;34m"firefox"[0m
-[0;32mMUSICPLAYER                    [0;34m"feishin"[0m
-[0;32mEMAILCLIENT                    [0;34m"thunderbird"[0m
-[0;32mNAMETAG_FORMAT                 [0;34m"%d: %.12s"[0m
-[0;32mMAX_TAGLEN                     [0;34m16[0m
-[0;32mNAMETAG_COMMAND                [0;34m"dmenu < /dev/null"[0m
-[0;32mFORCE_VSPLIT                   [0;34m1[0m
-[0;32mMODKEY                         [0;34mMod4Mask[0m
-[0;32mSTATUSBAR                      [0;34m"dwmblocks"[0m
+Constants:
+Name                           Value                                          
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TERMINAL                       "st"
+TERMCLASS                      "St"
+BROWSER                        "firefox"
+MUSICPLAYER                    "feishin"
+EMAILCLIENT                    "thunderbird"
+NAMETAG_FORMAT                 "%d: %.12s"
+MAX_TAGLEN                     16
+NAMETAG_COMMAND                "dmenu < /dev/null"
+FORCE_VSPLIT                   1
+MODKEY                         Mod4Mask
+STATUSBAR                      "dwmblocks"
 
-[1;33mKeybindings:[0m
-[0;32mModifier                       [0;34mKey                       [0;31mFunction             [0mArgument
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[0;32m MODKEY|ShiftMask             [0;34m  KEY                     [0;31m  combotag           [0m  .ui = 1 << TAG 
-[0;32m MODKEY|ControlMask|ShiftMask [0;34m  KEY                     [0;31m  toggletag          [0m  .ui = 1 << TAG 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  KEY                     [0;31m  swaptags           [0m  .ui = 1 << TAG 
-[0;32m MODKEY                       [0;34m  XK_Tab                  [0;31m  view               [0m  0 
-[0;32m MODKEY                       [0;34m  XK_BackSpace            [0;31m  spawn              [0m  .v = (const char*[]) "sysact"
-[0;32m MODKEY                       [0;34m  XK_minus                [0;31m  spawn              [0m  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_minus                [0;31m  spawn              [0m  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") 
-[0;32m MODKEY                       [0;34m  XK_plus                 [0;31m  spawn              [0m  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -44 $(pidof dwmblocks)") 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_plus                 [0;31m  spawn              [0m  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") 
-[0;32m MODKEY                       [0;34m  XK_w                    [0;31m  spawn              [0m  .v = (const char*[]) BROWSER
-[0;32m MODKEY|ShiftMask             [0;34m  XK_w                    [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m MODKEY                       [0;34m  XK_e                    [0;31m  spawn              [0m  .v = (const char*[]) EMAILCLIENT
-[0;32m MODKEY|ShiftMask             [0;34m  XK_e                    [0;31m  spawn              [0m  SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") 
-[0;32m MODKEY                       [0;34m  XK_r                    [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m MODKEY|ShiftMask             [0;34m  XK_r                    [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m MODKEY|ShiftMask             [0;34m  XK_y                    [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m MODKEY                       [0;34m  XK_n                    [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m MODKEY|ShiftMask             [0;34m  XK_m                    [0;31m  spawn              [0m  SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") 
-[0;32m MODKEY                       [0;34m  XK_F1                   [0;31m  spawn              [0m  SHCMD("zathura /home/anton/Nextcloud/dox/important/tud-indexed-secret.pdf") 
-[0;32m MODKEY                       [0;34m  XK_F2                   [0;31m  spawn              [0m  .v = (const char*[]) "tutorialvids"
-[0;32m MODKEY                       [0;34m  XK_F3                   [0;31m  spawn              [0m  .v = (const char*[]) "displayselect"
-[0;32m MODKEY                       [0;34m  XK_F4                   [0;31m  spawn              [0m  SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") 
-[0;32m MODKEY                       [0;34m  XK_F5                   [0;31m  xrdb               [0m  .v = NULL 
-[0;32m MODKEY                       [0;34m  XK_F6                   [0;31m  spawn              [0m  .v = (const char*[]) "torwrap"
-[0;32m MODKEY                       [0;34m  XK_F7                   [0;31m  spawn              [0m  .v = (const char*[]) "dmenuunicode"
-[0;32m MODKEY                       [0;34m  XK_F8                   [0;31m  spawn              [0m  .v = (const char*[]) "maimpick"
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F8                   [0;31m  spawn              [0m  .v = (const char*[]) "ss-uni"
-[0;32m MODKEY                       [0;34m  XK_F9                   [0;31m  spawn              [0m  .v = (const char*[]) "mounter"
-[0;32m MODKEY                       [0;34m  XK_F10                  [0;31m  spawn              [0m  .v = (const char*[]) "unmounter"
-[0;32m MODKEY                       [0;34m  XK_F11                  [0;31m  spawn              [0m  SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0
-[0;32m MODKEY                       [0;34m  XK_F12                  [0;31m  spawn              [0m  SHCMD("remaps") 
-[0;32m 0                            [0;34m  XK_Print                [0;31m  spawn              [0m  SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send 'screenshot taken'") 
-[0;32m MODKEY                       [0;34m  XK_Print                [0;31m  spawn              [0m  .v = (const char*[]) "maimpick"
-[0;32m MODKEY                       [0;34m  XK_Print                [0;31m  spawn              [0m  .v = (const char*[]) "dmenurecord"
-[0;32m MODKEY|ShiftMask             [0;34m  XK_Print                [0;31m  spawn              [0m  .v = (const char*[]) "dmenurecord"
-[0;32m MODKEY                       [0;34m  XK_Delete               [0;31m  spawn              [0m  .v = (const char*[]) "dmenurecord"
-[0;32m MODKEY                       [0;34m  XK_Scroll_Lock          [0;31m  spawn              [0m  SHCMD("killall screenkey || screenkey &") 
-[0;32m 0                            [0;34m  XF86XK_AudioMute        [0;31m  spawn              [0m  SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") 
-[0;32m 0                            [0;34m  XF86XK_AudioRaiseVolume [0;31m  spawn              [0m  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%+; kill -44 $(pidof dwmblocks)") 
-[0;32m 0                            [0;34m  XF86XK_AudioLowerVolume [0;31m  spawn              [0m  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-; kill -44 $(pidof dwmblocks)") 
-[0;32m 0                            [0;34m  XF86XK_AudioPrev        [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioNext        [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioPause       [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioPlay        [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioStop        [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioRewind      [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioForward     [0;31m  spawn              [0m  .v = (const char*[]) "mpc"
-[0;32m 0                            [0;34m  XF86XK_AudioMedia       [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m 0                            [0;34m  XF86XK_AudioMicMute     [0;31m  spawn              [0m  SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") 
-[0;32m 0                            [0;34m  XF86XK_PowerOff         [0;31m  spawn              [0m  .v = (const char*[]) "sysact"
-[0;32m 0                            [0;34m  XF86XK_Calculator       [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m 0                            [0;34m  XF86XK_Sleep            [0;31m  spawn              [0m  .v = (const char*[]) "sudo"
-[0;32m 0                            [0;34m  XF86XK_WWW              [0;31m  spawn              [0m  .v = (const char*[]) BROWSER
-[0;32m 0                            [0;34m  XF86XK_DOS              [0;31m  spawn              [0m  .v = termcmd 
-[0;32m 0                            [0;34m  XF86XK_ScreenSaver      [0;31m  spawn              [0m  SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") 
-[0;32m 0                            [0;34m  XF86XK_TaskPane         [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m 0                            [0;34m  XF86XK_Mail             [0;31m  spawn              [0m  SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") 
-[0;32m 0                            [0;34m  XF86XK_MyComputer       [0;31m  spawn              [0m  .v = (const char*[]) TERMINAL
-[0;32m 0                            [0;34m  XF86XK_Launch1          [0;31m  spawn              [0m  .v = (const char*[]) "xset"
-[0;32m 0                            [0;34m  XF86XK_TouchpadToggle   [0;31m  spawn              [0m  SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") 
-[0;32m 0                            [0;34m  XF86XK_TouchpadOff      [0;31m  spawn              [0m  .v = (const char*[]) "synclient"
-[0;32m 0                            [0;34m  XF86XK_TouchpadOn       [0;31m  spawn              [0m  .v = (const char*[]) "synclient"
-[0;32m 0                            [0;34m  XF86XK_MonBrightnessUp  [0;31m  spawn              [0m  .v = (const char*[]) "brightnessctl"
-[0;32m 0                            [0;34m  XF86XK_MonBrightnessDown[0;31m  spawn              [0m  .v = (const char*[]) "brightnessctl"
-[0;32m MODKEY                       [0;34m  XK_d                    [0;31m  spawn              [0m  .v = dmenucmd 
-[0;32m STACKKEYS(MODKEY|ShiftMask   [0;34m  push)                   [0;31m                     [0m 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_i                    [0;31m  incnmaster         [0m  .i = +1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_d                    [0;31m  incnmaster         [0m  .i = -1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_h                    [0;31m  setcfact           [0m  .f = +0.25 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_l                    [0;31m  setcfact           [0m  .f = -0.25 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_o                    [0;31m  setcfact           [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_space                [0;31m  zoom               [0m  0 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_u                    [0;31m  incrgaps           [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_u                    [0;31m  incrgaps           [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_i                    [0;31m  incrigaps          [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_i                    [0;31m  incrigaps          [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_o                    [0;31m  incrogaps          [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_o                    [0;31m  incrogaps          [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_6                    [0;31m  incrihgaps         [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_6                    [0;31m  incrihgaps         [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_7                    [0;31m  incrivgaps         [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_7                    [0;31m  incrivgaps         [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_8                    [0;31m  incrohgaps         [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_8                    [0;31m  incrohgaps         [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_9                    [0;31m  incrovgaps         [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_9                    [0;31m  incrovgaps         [0m  .i = -1 
-[0;32m MODKEY                       [0;34m  XK_g                    [0;31m  togglegaps         [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_g                    [0;31m  incrgaps           [0m  .i = 5 
-[0;32m MODKEY|ControlMask|ShiftMask [0;34m  XK_g                    [0;31m  defaultgaps        [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_Left                 [0;31m  shifttag           [0m  .i = -1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_Right                [0;31m  shifttag           [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_Tab                  [0;31m  shiftviewclients   [0m  .i = -1 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_backslash            [0;31m  shiftviewclients   [0m  .i = +1 
-[0;32m MODKEY                       [0;34m  XK_q                    [0;31m  killclient         [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_q                    [0;31m  killunsel          [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_q                    [0;31m  quit               [0m  0 
-[0;32m MODKEY|ControlMask|ShiftMask [0;34m  XK_q                    [0;31m  quit               [0m  1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F5                   [0;31m  xrdb               [0m  .v = NULL 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_f                    [0;31m  togglefloating     [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_Escape               [0;31m  togglenomodbuttons [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_grave                [0;31m  removescratch      [0m  .v = scratchpadcmd 
-[0;32m MODKEY|Mod1Mask              [0;34m  XK_space                [0;31m  unfloatvisible     [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_t                    [0;31m  unfloatvisible     [0m  .v = &layouts[0] 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_s                    [0;31m  togglesticky       [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_0                    [0;31m  tag                [0m  .ui = ~0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_comma                [0;31m  tagmon             [0m  .i = -1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_period               [0;31m  tagmon             [0m  .i = +1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_Left                 [0;31m  tagtoleft          [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_Right                [0;31m  tagtoright         [0m  0 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F1                   [0;31m  tagall             [0m  .v = "F1" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F2                   [0;31m  tagall             [0m  .v = "F2" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F3                   [0;31m  tagall             [0m  .v = "F3" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F4                   [0;31m  tagall             [0m  .v = "F4" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F5                   [0;31m  tagall             [0m  .v = "F5" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F6                   [0;31m  tagall             [0m  .v = "F6" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F7                   [0;31m  tagall             [0m  .v = "F7" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F8                   [0;31m  tagall             [0m  .v = "F8" 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_F9                   [0;31m  tagall             [0m  .v = "F9" 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_comma                [0;31m  tagallmon          [0m  .i = +1 
-[0;32m MODKEY|Mod1Mask|ShiftMask    [0;34m  XK_period               [0;31m  tagallmon          [0m  .i = -1 
-[0;32m MODKEY|ControlMask           [0;34m  XK_comma                [0;31m  tagswapmon         [0m  .i = +1 
-[0;32m MODKEY|ControlMask           [0;34m  XK_period               [0;31m  tagswapmon         [0m  .i = -1 
-[0;32m MODKEY|ShiftMask             [0;34m  XK_n                    [0;31m  nametag            [0m  0 
+Keybindings:
+Modifier                       Key                       Function             Argument
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ MODKEY                         KEY                       comboview            .ui = 1 << TAG 
+ MODKEY|ShiftMask               KEY                       combotag             .ui = 1 << TAG 
+ MODKEY|ControlMask|ShiftMask   KEY                       toggletag            .ui = 1 << TAG 
+ MODKEY|Mod1Mask|ShiftMask      KEY                       swaptags             .ui = 1 << TAG 
+ MODKEY|ShiftMask               XK_minus                  spawn                SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") 
+ MODKEY|ShiftMask               XK_plus                   spawn                SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") 
+ MODKEY|ShiftMask               XK_w                      spawn                .v = (const char*[]) TERMINAL
+ MODKEY|ShiftMask               XK_e                      spawn                SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") 
+ MODKEY|ShiftMask               XK_r                      spawn                .v = (const char*[]) TERMINAL
+ MODKEY|ShiftMask               XK_y                      spawn                .v = (const char*[]) TERMINAL
+ MODKEY|ShiftMask               XK_m                      spawn                SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") 
+ MODKEY|ShiftMask               XK_F8                     spawn                .v = (const char*[]) "ss-uni"
+ MODKEY|ShiftMask               XK_Print                  spawn                .v = (const char*[]) "dmenurecord"
+ STACKKEYS(MODKEY|ShiftMask     push)                                         
+ MODKEY|ShiftMask               XK_i                      incnmaster           .i = +1 
+ MODKEY|ShiftMask               XK_d                      incnmaster           .i = -1 
+ MODKEY|ShiftMask               XK_h                      setcfact             .f = +0.25 
+ MODKEY|ShiftMask               XK_l                      setcfact             .f = -0.25 
+ MODKEY|ShiftMask               XK_o                      setcfact             0 
+ MODKEY|ShiftMask               XK_space                  zoom                 0 
+ MODKEY|Mod1Mask|ShiftMask      XK_u                      incrgaps             .i = -1 
+ MODKEY|Mod1Mask|ShiftMask      XK_i                      incrigaps            .i = -1 
+ MODKEY|Mod1Mask|ShiftMask      XK_o                      incrogaps            .i = -1 
+ MODKEY|Mod1Mask|ShiftMask      XK_6                      incrihgaps           .i = -1 
+ MODKEY|Mod1Mask|ShiftMask      XK_7                      incrivgaps           .i = -1 
+ MODKEY|Mod1Mask|ShiftMask      XK_8                      incrohgaps           .i = -1 
+ MODKEY|Mod1Mask|ShiftMask      XK_9                      incrovgaps           .i = -1 
+ MODKEY|ShiftMask               XK_g                      incrgaps             .i = 5 
+ MODKEY|ControlMask|ShiftMask   XK_g                      defaultgaps          0 
+ MODKEY|ShiftMask               XK_Left                   shifttag             .i = -1 
+ MODKEY|ShiftMask               XK_Right                  shifttag             .i = +1 
+ MODKEY|ShiftMask               XK_q                      killunsel            0 
+ MODKEY|ShiftMask               XK_q                      quit                 0 
+ MODKEY|ControlMask|ShiftMask   XK_q                      quit                 1 
+ MODKEY|ShiftMask               XK_F5                     xrdb                 .v = NULL 
+ MODKEY|ShiftMask               XK_f                      togglefloating       0 
+ /* MODKEY|ShiftMask            XK_Escape                 togglenomodbuttons   0 
+ MODKEY|ShiftMask               XK_Return                 togglescratch        .v = scratchpadcmd 
+ MODKEY|ShiftMask               XK_grave                  removescratch        .v = scratchpadcmd 
+ MODKEY|ShiftMask               XK_t                      unfloatvisible       .v = &layouts[0] 
+ MODKEY|ShiftMask               XK_s                      togglesticky         0 
+ MODKEY|ShiftMask               XK_0                      tag                  .ui = ~0 
+ MODKEY|ShiftMask               XK_comma                  tagmon               .i = -1 
+ MODKEY|ShiftMask               XK_period                 tagmon               .i = +1 
+ MODKEY|ShiftMask               XK_Left                   tagtoleft            0 
+ MODKEY|ShiftMask               XK_Right                  tagtoright           0 
+ MODKEY|ShiftMask               XK_F1                     tagall               .v = "F1" 
+ MODKEY|ShiftMask               XK_F2                     tagall               .v = "F2" 
+ MODKEY|ShiftMask               XK_F3                     tagall               .v = "F3" 
+ MODKEY|ShiftMask               XK_F4                     tagall               .v = "F4" 
+ MODKEY|ShiftMask               XK_F5                     tagall               .v = "F5" 
+ MODKEY|ShiftMask               XK_F6                     tagall               .v = "F6" 
+ MODKEY|ShiftMask               XK_F7                     tagall               .v = "F7" 
+ MODKEY|ShiftMask               XK_F8                     tagall               .v = "F8" 
+ MODKEY|ShiftMask               XK_F9                     tagall               .v = "F9" 
+ MODKEY|Mod1Mask|ShiftMask      XK_comma                  tagallmon            .i = +1 
+ MODKEY|Mod1Mask|ShiftMask      XK_period                 tagallmon            .i = -1 
+ MODKEY|ShiftMask               XK_b                      togglealttag         0 
+ MODKEY|ShiftMask               XK_n                      nametag              0 
