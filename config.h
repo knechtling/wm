@@ -206,6 +206,7 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
+	RULE(.class = "scratchpadcmd", .isfloating = 1)
 	RULE(.class = "help-window", .isfloating = 1)
 	RULE(.class = EMAILCLIENT, .tags = 1 << 1)
 	RULE(.title = "tmux", .tags= 1 << 2)
@@ -305,7 +306,7 @@ static const Key on_empty_keys[] = {
 
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
-	{ MODKEY,                       XK_Tab,        	view,           {0} },
+	{ MODKEY,                       XK_Tab,		view,           {0} },
 	{ MODKEY,			XK_BackSpace,	spawn,		{.v = (const char*[]){ "sysact", NULL } } },
 	{ MODKEY,			XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY|ShiftMask,		XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") },
@@ -406,8 +407,8 @@ static const Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_9,          incrovgaps,             {.i = +1 } },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,          incrovgaps,             {.i = -1 } },
 	{ MODKEY,              		XK_g,          togglegaps,             {0} },
-	{ MODKEY|ShiftMask, 		XK_g, 		incrgaps, 		{.i = 5} },    // Increment gaps by 5
-	{ MODKEY|ControlMask|ShiftMask, XK_g, 		defaultgaps, 		{0} },    // Increment gaps by 5
+	{ MODKEY|ShiftMask, 		XK_g, 		incrgaps,	       {.i = 5} },    // Increment gaps by 5
+	{ MODKEY|ControlMask|ShiftMask, XK_g, 		defaultgaps, 	       {0} },    // Increment gaps by 5
 	{ Mod1Mask,                     XK_Tab,        alttabstart,            {0} },
 	{ MODKEY|ShiftMask,             XK_Left,       shifttag,               { .i = -1 } }, // note keybinding conflict with focusadjacenttag tagtoleft
 	{ MODKEY|ShiftMask,             XK_Right,      shifttag,               { .i = +1 } }, // note keybinding conflict with focusadjacenttag tagtoright
@@ -424,11 +425,11 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
 	{ MODKEY,                       XK_c,          setlayout,              {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_f, 		togglefloating,         {0} },
-	/*{ MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} },*/
-	{ MODKEY|ShiftMask,             XK_Return, 	togglescratch,         {.v = scratchpadcmd } },
-	{ MODKEY,			XK_grave,      setscratch,             {.v = scratchpadcmd } },
-	{ MODKEY|ShiftMask,             XK_grave,      removescratch,          {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,             XK_f, 		togglefloating,        {0} },
+	/*{ MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,   {0} },*/
+	{ MODKEY|ShiftMask,             XK_Return,     togglescratch,	       {.v = scratchpadcmd } },
+	{ MODKEY,			XK_dead_circumflex,      setscratch,             {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,             XK_dead_circumflex,      removescratch,          {.v = scratchpadcmd } },
 	{ MODKEY|Mod1Mask,              XK_space,      unfloatvisible,         {0} },
 	{ MODKEY|ShiftMask,             XK_t,          unfloatvisible,         {.v = &layouts[0]} },
 	{ MODKEY,                       XK_y,          togglefullscreen,       {0} },
