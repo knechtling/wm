@@ -1,13 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Helper macros for spawning commands */
-#define SHCMD(cmd)                                                             \
-  {                                                                            \
-    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
+#define SHCMD(cmd)                                                                                 \
+  {                                                                                                \
+    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                                           \
   }
-#define CMD(...)                                                               \
-  {                                                                            \
-    .v = (const char *[]) { __VA_ARGS__, NULL }                                \
+#define CMD(...)                                                                                   \
+  {                                                                                                \
+    .v = (const char *[]) { __VA_ARGS__, NULL }                                                    \
   }
 
 #define TERMINAL "st"
@@ -18,43 +18,31 @@
 /* appearance */
 static const unsigned int borderpx = 3; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
-static const int swallowfloating =
-    0; /* 1 means swallow floating windows by default */
-static int nomodbuttons =
-    1; /* allow client mouse button bindings that have no modifier */
+static const int swallowfloating = 0;   /* 1 means swallow floating windows by default */
+static int nomodbuttons = 1; /* allow client mouse button bindings that have no modifier */
 static const unsigned int gappih = 20; /* horiz inner gap between windows */
 static const unsigned int gappiv = 10; /* vert inner gap between windows */
-static const unsigned int gappoh =
-    10; /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov =
-    30; /* vert outer gap between windows and screen edge */
-static const int smartgaps_fact =
-    1; /* gap factor when there is only one client; 0 = no gaps, 3 = 3x outer
-              gaps */
-static const int showbar = 1; /* 0 means no bar */
-static const int topbar = 1;  /* 0 means bottom bar */
+static const unsigned int gappoh = 10; /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov = 30; /* vert outer gap between windows and screen edge */
+static const int smartgaps_fact = 1;   /* gap factor when there is only one client; 0 = no gaps, 3 =
+                                          3x outer   gaps */
+static const int showbar = 1;          /* 0 means no bar */
+static const int topbar = 1;           /* 0 means bottom bar */
 /*  Display modes of the tab bar: never shown, always shown, shown only in  */
 /*  monocle mode in the presence of several windows.                        */
 /*  Modes after showtab_nmodes are disabled.                                */
-enum showtab_modes {
-  showtab_never,
-  showtab_auto,
-  showtab_nmodes,
-  showtab_always
-};
+enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always };
 static const int showtab = showtab_auto; /* Default tab bar show mode */
 static const int toptab = False;         /* False means bottom tab bar */
 static const int focusonwheel = 0;
 static const char slopspawnstyle[] =
     "-t 0 -c 0.92,0.85,0.69,0.3 -o"; /* do NOT define -f (format) here */
 static const char slopresizestyle[] =
-    "-t 0 -c 0.92,0.85,0.69,0.3"; /* do NOT define -f (format) here */
-static const int riodraw_borders =
-    0; /* 0 or 1, indicates whether the area drawn using slop includes the
-            window borders */
-static const int riodraw_matchpid =
-    1; /* 0 or 1, indicates whether to match the PID of the client that was
-            spawned with riospawn */
+    "-t 0 -c 0.92,0.85,0.69,0.3";      /* do NOT define -f (format) here */
+static const int riodraw_borders = 0;  /* 0 or 1, indicates whether the area drawn using slop
+                                          includes the  window borders */
+static const int riodraw_matchpid = 1; /* 0 or 1, indicates whether to match the PID of the client
+                                          that was spawned with riospawn */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index),
  * 'A' (active monitor) */
 static const int statusmon = -1;
@@ -80,10 +68,8 @@ static const unsigned int tabmodkey =
 static const unsigned int tabcyclekey =
     0x17; /* (Tab) when this key is hit the menu moves one position forward in
                client stack. Must be the same key as used to run alttabstart */
-static const unsigned int tabposy =
-    1; /* tab position on Y axis, 0 = top, 1 = center, 2 = bottom */
-static const unsigned int tabposx =
-    1; /* tab position on X axis, 0 = left, 1 = center, 2 = right */
+static const unsigned int tabposy = 1; /* tab position on Y axis, 0 = top, 1 = center, 2 = bottom */
+static const unsigned int tabposx = 1; /* tab position on X axis, 0 = left, 1 = center, 2 = right */
 static const unsigned int maxwtab = 600; /* tab menu width */
 static const unsigned int maxhtab = 200; /* tab menu height */
 
@@ -91,9 +77,8 @@ static const unsigned int maxhtab = 200; /* tab menu height */
 static int tagindicatortype = INDICATOR_TOP_LEFT_SQUARE;
 static int tiledindicatortype = INDICATOR_NONE;
 static int floatindicatortype = INDICATOR_TOP_LEFT_SQUARE;
-static const char *fonts[] = {
-    "monospace:size=14",
-    "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"};
+static const char *fonts[] = {"monospace:size=14",
+                              "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"};
 static const char dmenufont[] = "monospace:size=10";
 static const char font[] = "monospace 10";
 
@@ -153,21 +138,18 @@ static char *colors[][ColCount] = {
     /*                       fg                bg                border float */
     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor, normfloatcolor},
     [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor, selfloatcolor},
-    [SchemeTitleNorm] = {titlenormfgcolor, titlenormbgcolor,
-                         titlenormbordercolor, titlenormfloatcolor},
-    [SchemeTitleSel] = {titleselfgcolor, titleselbgcolor, titleselbordercolor,
-                        titleselfloatcolor},
-    [SchemeTagsNorm] = {tagsnormfgcolor, tagsnormbgcolor, tagsnormbordercolor,
-                        tagsnormfloatcolor},
-    [SchemeTagsSel] = {tagsselfgcolor, tagsselbgcolor, tagsselbordercolor,
-                       tagsselfloatcolor},
+    [SchemeTitleNorm] = {titlenormfgcolor, titlenormbgcolor, titlenormbordercolor,
+                         titlenormfloatcolor},
+    [SchemeTitleSel] = {titleselfgcolor, titleselbgcolor, titleselbordercolor, titleselfloatcolor},
+    [SchemeTagsNorm] = {tagsnormfgcolor, tagsnormbgcolor, tagsnormbordercolor, tagsnormfloatcolor},
+    [SchemeTagsSel] = {tagsselfgcolor, tagsselbgcolor, tagsselbordercolor, tagsselfloatcolor},
     [SchemeHidNorm] = {hidnormfgcolor, hidnormbgcolor, c000000, c000000},
     [SchemeHidSel] = {hidselfgcolor, hidselbgcolor, c000000, c000000},
     [SchemeUrg] = {urgfgcolor, urgbgcolor, urgbordercolor, urgfloatcolor},
-    [SchemeScratchSel] = {scratchselfgcolor, scratchselbgcolor,
-                          scratchselbordercolor, scratchselfloatcolor},
-    [SchemeScratchNorm] = {scratchnormfgcolor, scratchnormbgcolor,
-                           scratchnormbordercolor, scratchnormfloatcolor},
+    [SchemeScratchSel] = {scratchselfgcolor, scratchselbgcolor, scratchselbordercolor,
+                          scratchselfloatcolor},
+    [SchemeScratchNorm] = {scratchnormfgcolor, scratchnormbgcolor, scratchnormbordercolor,
+                           scratchnormfloatcolor},
 };
 
 static const Launcher launchers[] = {
@@ -214,11 +196,9 @@ static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
  * patches.
  */
 static char tagicons[][NUMTAGS][MAX_TAGLEN] = {
-    [DEFAULT_TAGS] = {"", "", "", "", "", "", "", "🇩🇪",
-                      ""},
+    [DEFAULT_TAGS] = {"", "", "", "", "", "", "", "🇩🇪", ""},
     [ALTERNATIVE_TAGS] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"},
-    [ALT_TAGS_DECORATION] = {"<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>",
-                             "<8>", "<9>"},
+    [ALT_TAGS_DECORATION] = {"<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>"},
 };
 
 /* There are two options when it comes to per-client rules:
@@ -277,30 +257,21 @@ static const Rule rules[] = {
 static const BarRule barrules[] = {
     /* monitor   bar    alignment         widthfunc                 drawfunc
          clickfunc                hoverfunc                name */
-    {-1, 0, BAR_ALIGN_LEFT, width_stbutton, draw_stbutton, click_stbutton, NULL,
-     "statusbutton"},
-    {-1, 0, BAR_ALIGN_LEFT, width_launcher, draw_launcher, click_launcher, NULL,
-     "launcher"},
-    {-1, 0, BAR_ALIGN_LEFT, width_tags, draw_tags, click_tags, hover_tags,
-     "tags"},
-    {0, 0, BAR_ALIGN_RIGHT, width_systray, draw_systray, click_systray, NULL,
-     "systray"},
-    {-1, 0, BAR_ALIGN_LEFT, width_ltsymbol, draw_ltsymbol, click_ltsymbol, NULL,
-     "layout"},
-    {statusmon, 0, BAR_ALIGN_RIGHT, width_status, draw_status, click_statuscmd,
-     NULL, "status"},
-    {-1, 0, BAR_ALIGN_NONE, width_wintitle, draw_wintitle, click_wintitle, NULL,
-     "wintitle"},
+    {-1, 0, BAR_ALIGN_LEFT, width_stbutton, draw_stbutton, click_stbutton, NULL, "statusbutton"},
+    {-1, 0, BAR_ALIGN_LEFT, width_launcher, draw_launcher, click_launcher, NULL, "launcher"},
+    {-1, 0, BAR_ALIGN_LEFT, width_tags, draw_tags, click_tags, hover_tags, "tags"},
+    {0, 0, BAR_ALIGN_RIGHT, width_systray, draw_systray, click_systray, NULL, "systray"},
+    {-1, 0, BAR_ALIGN_LEFT, width_ltsymbol, draw_ltsymbol, click_ltsymbol, NULL, "layout"},
+    {statusmon, 0, BAR_ALIGN_RIGHT, width_status, draw_status, click_statuscmd, NULL, "status"},
+    {-1, 0, BAR_ALIGN_NONE, width_wintitle, draw_wintitle, click_wintitle, NULL, "wintitle"},
 };
 
 /* layout(s) */
-static const float mfact = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster = 1;    /* number of clients in master area */
-static const int resizehints =
-    0; /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen =
-    1; /* 1 will force focus on the fullscreen window */
-static const int decorhints = 1; /* 1 means respect decoration hints */
+static const float mfact = 0.55;     /* factor of master area size [0.05..0.95] */
+static const int nmaster = 1;        /* number of clients in master area */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int decorhints = 1;     /* 1 means respect decoration hints */
 
 #define FORCE_VSPLIT 1
 
@@ -308,43 +279,34 @@ static const Layout layouts[] = {
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle},  {"|||", col},  {"[D]", deck},
-    {"[\\]", dwindle}, {"HHH", grid}, {":::", gaplessgrid},
-    {"###", nrowgrid},
+    {"[M]", monocle}, {"|||", col},         {"[D]", deck},     {"[\\]", dwindle},
+    {"HHH", grid},    {":::", gaplessgrid}, {"###", nrowgrid},
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
-#define TAGKEYS(KEY, TAG)                                                      \
-  {MODKEY, KEY, comboview, {.ui = 1 << TAG}},                                  \
-      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
-      {MODKEY | ShiftMask, KEY, combotag, {.ui = 1 << TAG}},                   \
-      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},    \
-      {MODKEY | Mod1Mask | ShiftMask, KEY, swaptags, {.ui = 1 << TAG}},        \
-      {MODKEY | Mod1Mask, KEY, tagnextmon, {.ui = 1 << TAG}},                  \
+#define TAGKEYS(KEY, TAG)                                                                          \
+  {MODKEY, KEY, comboview, {.ui = 1 << TAG}},                                                      \
+      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},                                   \
+      {MODKEY | ShiftMask, KEY, combotag, {.ui = 1 << TAG}},                                       \
+      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},                        \
+      {MODKEY | Mod1Mask | ShiftMask, KEY, swaptags, {.ui = 1 << TAG}},                            \
+      {MODKEY | Mod1Mask, KEY, tagnextmon, {.ui = 1 << TAG}},                                      \
       {MODKEY | Mod1Mask | ControlMask, KEY, tagprevmon, {.ui = 1 << TAG}},
 
-#define STACKKEYS(MOD, ACTION)                                                 \
-  {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},                                  \
-      {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},                              \
-      {MOD, XK_s, ACTION##stack, {.i = PREVSEL}},                              \
-      {MOD, XK_w, ACTION##stack, {.i = 0}},                                    \
-      {MOD, XK_e, ACTION##stack, {.i = 1}},                                    \
-      {MOD, XK_a, ACTION##stack, {.i = 2}},                                    \
+#define STACKKEYS(MOD, ACTION)                                                                     \
+  {MOD, XK_j, ACTION##stack, {.i = INC(+1)}}, {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},          \
+      {MOD, XK_s, ACTION##stack, {.i = PREVSEL}}, {MOD, XK_w, ACTION##stack, {.i = 0}},            \
+      {MOD, XK_e, ACTION##stack, {.i = 1}}, {MOD, XK_a, ACTION##stack, {.i = 2}},                  \
       {MOD, XK_z, ACTION##stack, {.i = -1}},
 
 /* commands */
-static char dmenumon[2] =
-    "0"; /* component of dmenucmd, manipulated in spawn() */
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *termcmd[] = {TERMINAL, NULL};
-static const char *dmenucmd[] = {"dmenu_run", "-m",
-                                 dmenumon,    "-fn",
-                                 dmenufont,   "-nb",
-                                 normbgcolor, "-nf",
-                                 normfgcolor, "-sb",
-                                 selbgcolor,  "-sf",
-                                 selfgcolor,  topbar ? NULL : "-b",
-                                 NULL};
+static const char *dmenucmd[] = {
+    "dmenu_run", "-m",        dmenumon, "-fn",      dmenufont, "-nb",      normbgcolor,
+    "-nf",       normfgcolor, "-sb",    selbgcolor, "-sf",     selfgcolor, topbar ? NULL : "-b",
+    NULL};
 
 /* This defines the name of the executable that handles the bar (used for
  * signalling purposes) */
@@ -381,33 +343,19 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_e, spawn,
      SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile "
                     "~/.config/abook/addressbook")},
-    {MODKEY,
-     XK_r,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "lfub", NULL}}},
-    {MODKEY | ShiftMask,
-     XK_r,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "htop", NULL}}},
-    {MODKEY | ShiftMask,
-     XK_y,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "ytfzf", "-t", NULL}}},
-    {MODKEY,
-     XK_n,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "nvim", "-c", "WikiIndex", NULL}}},
+    {MODKEY, XK_r, spawn, {.v = (const char *[]){TERMINAL, "-e", "lfub", NULL}}},
+    {MODKEY | ShiftMask, XK_r, spawn, {.v = (const char *[]){TERMINAL, "-e", "htop", NULL}}},
+    {MODKEY | ShiftMask, XK_y, spawn, {.v = (const char *[]){TERMINAL, "-e", "ytfzf", "-t", NULL}}},
+    {MODKEY, XK_n, spawn, {.v = (const char *[]){TERMINAL, "-e", "nvim", "-c", "WikiIndex", NULL}}},
 
     {MODKEY | ShiftMask, XK_m, spawn,
      SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof "
            "dwmblocks)")},
     {MODKEY, XK_F1, spawn,
-     SHCMD(
-         "zathura /home/anton/Nextcloud/dox/important/tud-indexed-secret.pdf")},
+     SHCMD("zathura /home/anton/Nextcloud/dox/important/tud-indexed-secret.pdf")},
     {MODKEY, XK_F2, spawn, {.v = (const char *[]){"tutorialvids", NULL}}},
     {MODKEY, XK_F3, spawn, {.v = (const char *[]){"displayselect", NULL}}},
-    {MODKEY, XK_F4, spawn,
-     SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)")},
+    {MODKEY, XK_F4, spawn, SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)")},
     {MODKEY, XK_F5, xrdb, {.v = NULL}},
     {MODKEY, XK_F6, spawn, {.v = (const char *[]){"torwrap", NULL}}},
     {MODKEY, XK_F7, spawn, {.v = (const char *[]){"dmenuunicode", NULL}}},
@@ -426,14 +374,8 @@ static const Key keys[] = {
            "'screenshot taken'")},
     {MODKEY, XK_Print, spawn, {.v = (const char *[]){"maimpick", NULL}}},
     {MODKEY, XK_Print, spawn, {.v = (const char *[]){"dmenurecord", NULL}}},
-    {MODKEY | ShiftMask,
-     XK_Print,
-     spawn,
-     {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
-    {MODKEY,
-     XK_Delete,
-     spawn,
-     {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
+    {MODKEY | ShiftMask, XK_Print, spawn, {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
+    {MODKEY, XK_Delete, spawn, {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
     {MODKEY, XK_Scroll_Lock, spawn, SHCMD("killall screenkey || screenkey &")},
 
     {0, XF86XK_AudioMute, spawn,
@@ -447,65 +389,29 @@ static const Key keys[] = {
            "dwmblocks)")},
     {0, XF86XK_AudioPrev, spawn, {.v = (const char *[]){"mpc", "prev", NULL}}},
     {0, XF86XK_AudioNext, spawn, {.v = (const char *[]){"mpc", "next", NULL}}},
-    {0,
-     XF86XK_AudioPause,
-     spawn,
-     {.v = (const char *[]){"mpc", "pause", NULL}}},
+    {0, XF86XK_AudioPause, spawn, {.v = (const char *[]){"mpc", "pause", NULL}}},
     {0, XF86XK_AudioPlay, spawn, {.v = (const char *[]){"mpc", "play", NULL}}},
     {0, XF86XK_AudioStop, spawn, {.v = (const char *[]){"mpc", "stop", NULL}}},
-    {0,
-     XF86XK_AudioRewind,
-     spawn,
-     {.v = (const char *[]){"mpc", "seek", "-10", NULL}}},
-    {0,
-     XF86XK_AudioForward,
-     spawn,
-     {.v = (const char *[]){"mpc", "seek", "+10", NULL}}},
-    {0,
-     XF86XK_AudioMedia,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "ncmpcpp", NULL}}},
-    {0, XF86XK_AudioMicMute, spawn,
-     SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle")},
+    {0, XF86XK_AudioRewind, spawn, {.v = (const char *[]){"mpc", "seek", "-10", NULL}}},
+    {0, XF86XK_AudioForward, spawn, {.v = (const char *[]){"mpc", "seek", "+10", NULL}}},
+    {0, XF86XK_AudioMedia, spawn, {.v = (const char *[]){TERMINAL, "-e", "ncmpcpp", NULL}}},
+    {0, XF86XK_AudioMicMute, spawn, SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle")},
     {0, XF86XK_PowerOff, spawn, {.v = (const char *[]){"sysact", NULL}}},
-    {0,
-     XF86XK_Calculator,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "bc", "-l", NULL}}},
-    {0,
-     XF86XK_Sleep,
-     spawn,
-     {.v = (const char *[]){"sudo", "-A", "zzz", NULL}}},
+    {0, XF86XK_Calculator, spawn, {.v = (const char *[]){TERMINAL, "-e", "bc", "-l", NULL}}},
+    {0, XF86XK_Sleep, spawn, {.v = (const char *[]){"sudo", "-A", "zzz", NULL}}},
     {0, XF86XK_WWW, spawn, {.v = (const char *[]){BROWSER, NULL}}},
     {0, XF86XK_DOS, spawn, {.v = termcmd}},
-    {0, XF86XK_ScreenSaver, spawn,
-     SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv")},
-    {0,
-     XF86XK_TaskPane,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "htop", NULL}}},
-    {0, XF86XK_Mail, spawn,
-     SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks")},
-    {0,
-     XF86XK_MyComputer,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "lfub", "/", NULL}}},
+    {0, XF86XK_ScreenSaver, spawn, SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv")},
+    {0, XF86XK_TaskPane, spawn, {.v = (const char *[]){TERMINAL, "-e", "htop", NULL}}},
+    {0, XF86XK_Mail, spawn, SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks")},
+    {0, XF86XK_MyComputer, spawn, {.v = (const char *[]){TERMINAL, "-e", "lfub", "/", NULL}}},
     /* { 0, XF86XK_Battery,		spawn,		SHCMD("") }, */
-    {0,
-     XF86XK_Launch1,
-     spawn,
-     {.v = (const char *[]){"xset", "dpms", "force", "off", NULL}}},
+    {0, XF86XK_Launch1, spawn, {.v = (const char *[]){"xset", "dpms", "force", "off", NULL}}},
     {0, XF86XK_TouchpadToggle, spawn,
      SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || "
            "synclient TouchpadOff=1")},
-    {0,
-     XF86XK_TouchpadOff,
-     spawn,
-     {.v = (const char *[]){"synclient", "TouchpadOff=1", NULL}}},
-    {0,
-     XF86XK_TouchpadOn,
-     spawn,
-     {.v = (const char *[]){"synclient", "TouchpadOff=0", NULL}}},
+    {0, XF86XK_TouchpadOff, spawn, {.v = (const char *[]){"synclient", "TouchpadOff=1", NULL}}},
+    {0, XF86XK_TouchpadOn, spawn, {.v = (const char *[]){"synclient", "TouchpadOff=0", NULL}}},
     {0,
      XF86XK_MonBrightnessUp,
      spawn,
@@ -521,8 +427,7 @@ static const Key keys[] = {
     {MODKEY, XK_s, rioresize, {0}},
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY | ControlMask, XK_b, tabmode, {-1}},
-    STACKKEYS(MODKEY, focus)
-        STACKKEYS(MODKEY | ShiftMask, push){MODKEY, XK_space, switchcol, {0}},
+    STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push){MODKEY, XK_space, switchcol, {0}},
     {MODKEY | ControlMask, XK_j, pushdown, {0}},
     {MODKEY | ControlMask, XK_k, pushup, {0}},
     {MODKEY | ShiftMask, XK_i, incnmaster, {.i = +1}},
@@ -549,11 +454,8 @@ static const Key keys[] = {
     {MODKEY | Mod1Mask, XK_9, incrovgaps, {.i = +1}},
     {MODKEY | Mod1Mask | ShiftMask, XK_9, incrovgaps, {.i = -1}},
     {MODKEY, XK_g, togglegaps, {0}},
-    {MODKEY | ShiftMask, XK_g, incrgaps, {.i = 5}}, // Increment gaps by 5
-    {MODKEY | ControlMask | ShiftMask,
-     XK_g,
-     defaultgaps,
-     {0}}, // Increment gaps by 5
+    {MODKEY | ShiftMask, XK_g, incrgaps, {.i = 5}},             // Increment gaps by 5
+    {MODKEY | ControlMask | ShiftMask, XK_g, defaultgaps, {0}}, // Increment gaps by 5
     {Mod1Mask, XK_Tab, alttabstart, {0}},
     {MODKEY | ShiftMask,
      XK_Left,
@@ -581,10 +483,7 @@ static const Key keys[] = {
          },*/
     {MODKEY | ShiftMask, XK_Return, togglescratch, {.v = scratchpadcmd}},
     {MODKEY, XK_dead_circumflex, setscratch, {.v = scratchpadcmd}},
-    {MODKEY | ShiftMask,
-     XK_dead_circumflex,
-     removescratch,
-     {.v = scratchpadcmd}},
+    {MODKEY | ShiftMask, XK_dead_circumflex, removescratch, {.v = scratchpadcmd}},
     {MODKEY | Mod1Mask, XK_space, unfloatvisible, {0}},
     {MODKEY | ShiftMask, XK_t, unfloatvisible, {.v = &layouts[0]}},
     {MODKEY, XK_y, togglefullscreen, {0}},
@@ -595,22 +494,10 @@ static const Key keys[] = {
     {MODKEY, XK_period, focusmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
-    {MODKEY,
-     XK_Left,
-     viewtoleft,
-     {0}}, // note keybinding conflict with focusdir
-    {MODKEY,
-     XK_Right,
-     viewtoright,
-     {0}}, // note keybinding conflict with focusdir
-    {MODKEY | ShiftMask,
-     XK_Left,
-     tagtoleft,
-     {0}}, // note keybinding conflict with shifttag
-    {MODKEY | ShiftMask,
-     XK_Right,
-     tagtoright,
-     {0}}, // note keybinding conflict with shifttag
+    {MODKEY, XK_Left, viewtoleft, {0}},              // note keybinding conflict with focusdir
+    {MODKEY, XK_Right, viewtoright, {0}},            // note keybinding conflict with focusdir
+    {MODKEY | ShiftMask, XK_Left, tagtoleft, {0}},   // note keybinding conflict with shifttag
+    {MODKEY | ShiftMask, XK_Right, tagtoright, {0}}, // note keybinding conflict with shifttag
     {MODKEY | ControlMask,
      XK_Left,
      tagandviewtoleft,
@@ -657,9 +544,8 @@ static const Key keys[] = {
     {MODKEY, XK_F1, mpdchange, {.i = -1}},
     {MODKEY, XK_F2, mpdchange, {.i = +1}},
     {MODKEY, XK_Escape, mpdcontrol, {0}},
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
-        TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-            TAGKEYS(XK_9, 8)};
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4)
+        TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)};
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
